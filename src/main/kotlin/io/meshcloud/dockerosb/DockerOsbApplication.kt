@@ -9,13 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling
 class DockerOsbApplication
 
 fun main(args: Array<String>) {
+  // allows to use %2F in path segments
   System.setProperty("org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH", "true");
- 
-  @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-      UrlPathHelper urlPathHelper = new UrlPathHelper();
-      urlPathHelper.setUrlDecode(false);
-      configurer.setUrlPathHelper(urlPathHelper);
-    }
+  
   runApplication<DockerOsbApplication>(*args)
 }
