@@ -40,7 +40,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v3
       with:
-        images: ghcr.io/meshcloud/unipipe-service-broker
+        images: ghcr.io/fnts-public/unipipe-service-broker
         tags: type=ref,event=tag
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1 
@@ -163,7 +163,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
-        images: ghcr.io/meshcloud/unipipe-terraform-runner
+        images: ghcr.io/fnts-public/unipipe-terraform-runner
         tags: type=ref,event=tag
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1 
