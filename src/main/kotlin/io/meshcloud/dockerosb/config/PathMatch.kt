@@ -8,11 +8,10 @@ import org.springframework.web.util.UrlPathHelper
 @Configuration
 class SpringApplicationConfig {
     @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-
-       UrlPathHelper helper = new UrlPathHelper();
-        helper.setUrlDecode(false);
-
-        configurer.setUrlPathHelper(helper);
+    fun configurePathMatch(configurer: PathMatchConfigurer) {
+      UrlPathHelper helper = new UrlPathHelper() {
+        setUrlDecode(false)
+        }
+     configurer.setUrlPathHelper(helper)
     }
 }
