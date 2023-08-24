@@ -10,7 +10,7 @@ class DockerOsbApplication
 
 fun main(args: Array<String>) {
   System.setProperty("org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH", "true");
-
+ 
   @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
       UrlPathHelper urlPathHelper = new UrlPathHelper();
