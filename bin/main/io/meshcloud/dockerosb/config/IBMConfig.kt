@@ -19,10 +19,13 @@ class WebMvcConfig : WebMvcConfigurer {
         configurer.setUrlPathHelper(urlPathHelper)
     }
 
+    val corsOrigin: String by lazy { System.getProperty("cors.origin") ?: "" }
 
     override fun addCorsMappings(registry: CorsRegistry) {
+        val allowedOrigins = corsOrigin.split(",").toTypedArray()
         registry
             .addMapping("/**")
+            .allowedOriginPatterns(*allowedOrigins)
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
             .allowedHeaders("Accept", "Content-Type", "Authorization", "x-xsrf-token")
             .exposedHeaders(HttpHeaders.AUTHORIZATION)
