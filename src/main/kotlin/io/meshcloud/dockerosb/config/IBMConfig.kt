@@ -19,9 +19,6 @@ class WebMvcConfig : WebMvcConfigurer {
         configurer.setUrlPathHelper(urlPathHelper)
     }
 
-    @Value("\${cors.origin}")
-    lateinit var corsOrigin: String
-
     override fun addCorsMappings(registry: CorsRegistry) {
         registry
             .addMapping("/**")
