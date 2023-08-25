@@ -30,7 +30,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-  release-service-broker:
+  tag-broker-release:
     needs: build-service-broker  
     runs-on: ubuntu-latest
     steps:
