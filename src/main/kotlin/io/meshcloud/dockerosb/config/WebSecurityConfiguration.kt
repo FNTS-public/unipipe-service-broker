@@ -28,7 +28,7 @@ class WebSecurityConfig(
     val entryPoint = BasicAuthenticationEntryPoint().apply {
       realmName = "GenericOSB"
     }
-
+  
     http.csrf().disable()
         .authorizeRequests().anyRequest().authenticated()
         .and()
@@ -44,4 +44,5 @@ class WebSecurityConfig(
     firewall.setAllowUrlEncodedSlash(true)
     return firewall
 }
+
 }
