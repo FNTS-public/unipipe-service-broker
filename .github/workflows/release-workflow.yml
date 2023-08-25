@@ -3,8 +3,6 @@ name: Release
 on:
   push: # trigger whenever a new version tag gets pushed https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/23
     tags: [ v* ]
-  create:
-    tags: [ v* ]
 
 jobs:
   # We run the create-release action in a separate job to make the output available to the docker image and cli release jobs.
