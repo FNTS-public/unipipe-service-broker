@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint
+import org.springframework.security.web.firewall.HttpFirewall
+import org.springframework.security.web.firewall.StrictHttpFirewall
 
 @Configuration
 @EnableWebSecurity
@@ -37,4 +39,9 @@ class WebSecurityConfig(
   fun passwordEncoder(): PasswordEncoder {
     return BCryptPasswordEncoder()
   }
+  fun defaultFireWall(): HttpFirewall {
+    val firewall = StrictHttpFirewall()
+    firewall.setAllowUrlEncodedSlash(true)
+    return firewall
+}
 }
