@@ -1,5 +1,8 @@
 # Changelog
 
+## Example Change
+- This note
+
 ## vNext
 
 ### CLI
