@@ -13,7 +13,7 @@ plugins {
 group = "io.meshcloud"
 version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
-
+extra["springCloudVersion"] = "Hoxton.SR8"
 repositories {
   mavenCentral()
 }
@@ -36,11 +36,21 @@ dependencies {
   implementation("io.github.microutils:kotlin-logging:1.4.9")
   implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.0.2.RELEASE")
 
+  implementation(platform("io.opentelemetry:opentelemetry-bom:1.30.1"))
+  implementation("io.opentelemetry:opentelemetry-api")
+
+
   developmentOnly("org.springframework.boot:spring-boot-devtools")
 
   testImplementation("org.junit.vintage:junit-vintage-engine")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
+}
+
+dependencyManagement {
+  imports {
+      mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+  }
 }
 
 tasks.withType<KotlinCompile> {
