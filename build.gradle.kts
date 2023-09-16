@@ -14,6 +14,7 @@ group = "io.meshcloud"
 version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 extra["springCloudVersion"] = "Hoxton.SR8"
+
 repositories {
   mavenCentral()
 }
