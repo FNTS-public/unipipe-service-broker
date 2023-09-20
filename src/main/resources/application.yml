@@ -9,3 +9,4 @@ git:
   
 cors:
     originPatterns: ${CORS_ORIGINS}
+logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG

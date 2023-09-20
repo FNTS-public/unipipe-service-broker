@@ -116,7 +116,7 @@ class GitHandlerService(
       // note: we do also not execute a fetch in this case because if the unipipe-osb is just idling
       // there's no sense in us fetching from the remote all the time. Consumers can explicitly call
       // pullFastForwardOnly if they want an up to date copy
-      log.info { "synchronizeWithRemoteRepository called, but no new local commits found - skipping." }
+      // log.info { "synchronizeWithRemoteRepository called, but no new local commits found - skipping." }
       return
     }
 
