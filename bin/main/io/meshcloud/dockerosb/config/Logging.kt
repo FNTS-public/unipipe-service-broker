@@ -12,7 +12,7 @@ class RequestLoggingFilter: AbstractRequestLoggingFilter() {
     private val log = LoggerFactory.getLogger(this::class.java)
 
     override fun shouldLog(request: HttpServletRequest): Boolean {
-        return log.isDebugEnabled
+        return true
     }
 
     /**
