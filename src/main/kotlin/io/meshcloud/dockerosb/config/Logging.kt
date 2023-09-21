@@ -8,6 +8,9 @@ import org.springframework.web.filter.AbstractRequestLoggingFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.ServletRequest
 import java.io.BufferedReader
+import org.springframework.web.util.ContentCachingRequestWrapper;
+
+val DEBUG_MODE = System.getenv("DEBUG_MODE")
 
 class RequestLoggingFilter: AbstractRequestLoggingFilter() {
 
@@ -21,15 +24,24 @@ class RequestLoggingFilter: AbstractRequestLoggingFilter() {
      * Writes a log message before the request is processed.
      */
     override fun beforeRequest(request: HttpServletRequest, message: String) {
-        log.info(message)
-        val sb = StringBuilder()
-        val reader: BufferedReader = request.reader
-        var line: String?
-        while (reader.readLine().also { line = it } != null) {
-            sb.append(line)
+        var ouputLogs: Boolean
+        val thisrequest = ContentCachingRequestWrapper(request);
+        if (DEBUG_MODE == null ||  DEBUG_MODE == "false") {
+            ouputLogs = false
+        } else {
+            ouputLogs = true
         }
-        val requestBody: String = sb.toString()
-        log.info(requestBody)
+        if (ouputLogs){
+            log.info(message)
+            val sb = StringBuilder()
+            val reader: BufferedReader = thisrequest.reader
+            var line: String?
+            while (reader.readLine().also { line = it } != null) {
+                sb.append(line)
+            }
+            val requestBody: String = sb.toString()
+            log.info(requestBody)
+        }
     }
 
     /**

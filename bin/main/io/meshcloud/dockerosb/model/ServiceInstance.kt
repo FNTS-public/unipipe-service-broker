@@ -5,7 +5,8 @@ import org.springframework.cloud.servicebroker.model.instance.CreateServiceInsta
 import org.springframework.cloud.servicebroker.model.instance.UpdateServiceInstanceRequest
 import javax.validation.constraints.NotEmpty
 import java.net.URLEncoder
-
+import mu.KotlinLogging
+private val log = KotlinLogging.logger {}
 data class ServiceInstance(
 
     @NotEmpty
@@ -37,7 +38,7 @@ data class ServiceInstance(
 
   fun update(request: UpdateServiceInstanceRequest): ServiceInstance {
     require(serviceInstanceId == URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
-
+    log.info {request}
     return copy(
         asyncAccepted = request.isAsyncAccepted,
         context = request.context ?: context,
