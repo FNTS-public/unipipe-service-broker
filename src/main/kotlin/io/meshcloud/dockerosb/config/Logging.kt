@@ -8,7 +8,8 @@ import org.springframework.web.filter.AbstractRequestLoggingFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.ServletRequest
 import java.io.BufferedReader
-import org.springframework.web.util.ContentCachingRequestWrapper;
+import java.io.InputStreamReader
+
 
 val DEBUG_MODE = System.getenv("DEBUG_MODE")
 
@@ -17,7 +18,7 @@ class RequestLoggingFilter: AbstractRequestLoggingFilter() {
     private val log = LoggerFactory.getLogger(this::class.java)
 
     override fun shouldLog(request: HttpServletRequest): Boolean {
-        return true
+        return DEBUG_MODE == "true"
     }
 
     /**
@@ -25,16 +26,17 @@ class RequestLoggingFilter: AbstractRequestLoggingFilter() {
      */
     override fun beforeRequest(request: HttpServletRequest, message: String) {
         if (DEBUG_MODE == null ||  DEBUG_MODE == "false") {
+            return
         } else {
-            var thisrequest = ContentCachingRequestWrapper(request);
+            val reader = BufferedReader(InputStreamReader(request.inputStream))
+            val requestBody = reader.readText()
             log.info(message)
-            val sb = StringBuilder()
-            val reader: BufferedReader = thisrequest.reader
-            var line: String?
-            while (reader.readLine().also { line = it } != null) {
-                sb.append(line)
-            }
-            val requestBody: String = sb.toString()
+            // val sb = StringBuilder()
+            // var line: String?
+            // while (reader.readLine().also { line = it } != null) {
+            //     sb.append(line)
+            // }
+            // val requestBody: String = sb.toString()
             log.info(requestBody)
         }
     }
@@ -44,6 +46,7 @@ class RequestLoggingFilter: AbstractRequestLoggingFilter() {
      */
     override fun afterRequest(request: HttpServletRequest, message: String) {
         log.info(message)
+        return
     }
 
 }
