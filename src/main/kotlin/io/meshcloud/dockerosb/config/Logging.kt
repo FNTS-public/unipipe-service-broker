@@ -24,14 +24,9 @@ class RequestLoggingFilter: AbstractRequestLoggingFilter() {
      * Writes a log message before the request is processed.
      */
     override fun beforeRequest(request: HttpServletRequest, message: String) {
-        var ouputLogs: Boolean
-        val thisrequest = ContentCachingRequestWrapper(request);
         if (DEBUG_MODE == null ||  DEBUG_MODE == "false") {
-            ouputLogs = false
         } else {
-            ouputLogs = true
-        }
-        if (ouputLogs){
+            var thisrequest = ContentCachingRequestWrapper(request);
             log.info(message)
             val sb = StringBuilder()
             val reader: BufferedReader = thisrequest.reader
