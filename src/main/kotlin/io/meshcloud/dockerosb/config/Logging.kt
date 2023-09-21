@@ -6,6 +6,8 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter
 import org.slf4j.LoggerFactory
 import org.springframework.web.filter.AbstractRequestLoggingFilter
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.ServletRequest
+import java.io.BufferedReader
 
 class RequestLoggingFilter: AbstractRequestLoggingFilter() {
 
@@ -20,6 +22,14 @@ class RequestLoggingFilter: AbstractRequestLoggingFilter() {
      */
     override fun beforeRequest(request: HttpServletRequest, message: String) {
         log.info(message)
+        val sb = StringBuilder()
+        val reader: BufferedReader = request.reader
+        var line: String?
+        while (reader.readLine().also { line = it } != null) {
+            sb.append(line)
+        }
+        val requestBody: String = sb.toString()
+        log.info(requestBody)
     }
 
     /**
