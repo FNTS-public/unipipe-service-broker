@@ -39,6 +39,9 @@ dependencies {
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
 
+  implementation(platform("io.opentelemetry:opentelemetry-bom:1.30.1"))
+  implementation("io.opentelemetry:opentelemetry-api")
+
   testImplementation("org.junit.vintage:junit-vintage-engine")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
