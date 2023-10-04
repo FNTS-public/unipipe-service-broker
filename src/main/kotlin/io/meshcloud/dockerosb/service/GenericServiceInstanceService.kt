@@ -43,8 +43,8 @@ class GenericServiceInstanceService(
 
     gitContextFactory.acquireContext().use { context ->
       val repository = context.buildServiceInstanceRepository()
-      val existingInstance = repository.tryGetServiceInstance(request.serviceInstanceId)
-          ?: throw ServiceInstanceDoesNotExistException(request.serviceInstanceId)
+      val existingInstance = repository.tryGetServiceInstance(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
+          ?: throw ServiceInstanceDoesNotExistException(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
 
       val updatedInstance = existingInstance.update(request)
       repository.updateServiceInstance(updatedInstance)
@@ -62,8 +62,8 @@ class GenericServiceInstanceService(
     gitContextFactory.acquireContext().use { context ->
 
       val repository = context.buildServiceInstanceRepository()
-      val instance = repository.tryGetServiceInstance(request.serviceInstanceId)
-          ?: throw ServiceInstanceDoesNotExistException(request.serviceInstanceId)
+      val instance = repository.tryGetServiceInstance(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
+          ?: throw ServiceInstanceDoesNotExistException(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
 
       return Mono.just(
           GetServiceInstanceResponse.builder()
@@ -82,8 +82,8 @@ class GenericServiceInstanceService(
 
       val repository = context.buildServiceInstanceRepository()
 
-      val instance = repository.tryGetServiceInstance(request.serviceInstanceId)
-          ?: throw ServiceInstanceDoesNotExistException(request.serviceInstanceId)
+      val instance = repository.tryGetServiceInstance(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
+          ?: throw ServiceInstanceDoesNotExistException(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
 
       val instanceStatus = repository.getServiceInstanceStatus(serviceInstanceId = URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
 
@@ -101,15 +101,15 @@ class GenericServiceInstanceService(
 
     gitContextFactory.acquireContext().use { context ->
       val repository = context.buildServiceInstanceRepository()
-      val instance = repository.tryGetServiceInstance(request.serviceInstanceId)
-          ?: throw ServiceInstanceDoesNotExistException(request.serviceInstanceId)
+      val instance = repository.tryGetServiceInstance(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
+          ?: throw ServiceInstanceDoesNotExistException(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
 
       if (!request.isAsyncAccepted) {
         throw ServiceBrokerAsyncRequiredException("UniPipe service broker invokes async CI/CD pipelines")
       }
 
       val deletingOperation = "deleting service"
-      val status = repository.getServiceInstanceStatus(request.serviceInstanceId).toOperationState()
+      val status = repository.getServiceInstanceStatus(URLEncoder.encode(request.serviceInstanceId, "UTF-8")).toOperationState()
 
       if (instance.deleted) {
         when (status) {
@@ -117,7 +117,7 @@ class GenericServiceInstanceService(
           OperationState.FAILED,
           OperationState.IN_PROGRESS -> throw ServiceBrokerDeleteOperationInProgressException(deletingOperation)
           // indicate the instance does not exist anymore
-          OperationState.SUCCEEDED -> throw ServiceInstanceDoesNotExistException(request.serviceInstanceId)
+          OperationState.SUCCEEDED -> throw ServiceInstanceDoesNotExistException(URLEncoder.encode(request.serviceInstanceId, "UTF-8"))
         }
       }
 

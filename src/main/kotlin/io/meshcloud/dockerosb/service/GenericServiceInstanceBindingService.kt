@@ -8,7 +8,7 @@ import org.springframework.cloud.servicebroker.model.binding.*
 import org.springframework.cloud.servicebroker.service.ServiceInstanceBindingService
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-
+import java.net.URLEncoder
 @Service
 class GenericServiceInstanceBindingService(
     private val gitContextFactory: GitOperationContextFactory
@@ -39,7 +39,7 @@ class GenericServiceInstanceBindingService(
   override fun deleteServiceInstanceBinding(request: DeleteServiceInstanceBindingRequest): Mono<DeleteServiceInstanceBindingResponse> {
     gitContextFactory.acquireContext().use { context ->
       val repository = context.buildServiceInstanceBindingRepository()
-      val binding = repository.tryGetServiceBinding(request.serviceInstanceId, request.bindingId)
+      val binding = repository.tryGetServiceBinding(URLEncoder.encode(request.serviceInstanceId, "UTF-8"), request.bindingId)
 
       if (binding == null || binding.deleted)
         return Mono.just(
@@ -69,7 +69,7 @@ class GenericServiceInstanceBindingService(
 
       val repository = context.buildServiceInstanceBindingRepository()
 
-      val status = repository.getServiceBindingStatus(request.serviceInstanceId, request.bindingId)
+      val status = repository.getServiceBindingStatus(URLEncoder.encode(request.serviceInstanceId, "UTF-8"), request.bindingId)
 
       return Mono.just(
           GetLastServiceBindingOperationResponse.builder()
@@ -86,10 +86,10 @@ class GenericServiceInstanceBindingService(
 
       val repository = context.buildServiceInstanceBindingRepository()
 
-      repository.tryGetServiceBinding(request.serviceInstanceId, request.bindingId)
+      repository.tryGetServiceBinding(URLEncoder.encode(request.serviceInstanceId, "UTF-8"), request.bindingId)
           ?: throw ServiceInstanceBindingDoesNotExistException(request.bindingId)
 
-      val credentials = repository.getServiceBindingCredentials(request.serviceInstanceId, request.bindingId)
+      val credentials = repository.getServiceBindingCredentials(URLEncoder.encode(request.serviceInstanceId, "UTF-8"), request.bindingId)
 
       return Mono.just(
           GetServiceInstanceAppBindingResponse.builder()
